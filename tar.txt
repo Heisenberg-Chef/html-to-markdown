@@ -1,0 +1,32 @@
+| 偏移 | 大小 | 英文名 | 中文名 | 描述 |
+| --- | --- | --- | --- | --- |
+| 0 | 2 | Magic | 魔数 | 这个无符号整数指出了镜像文件的状态。0x10B表明这是一个32位镜像文件。0x107表明这是一个ROM镜像。0x20B表明这是一个64位镜像文件。 |
+| 2 | 1 | MajorLinkerVersion | 链接器的主版本号 | 链接器的主版本号。 |
+| 3 | 1 | MinorLinkerVersion | 链接器的次版本号 | 链接器的次版本号。 |
+| 4 | 4 | SizeOfCode | 代码节大小 | 一般放在“.text”节里。如果有多个代码节的话，它是所有代码节的和。必须是FileAlignment的整数倍，是在文件里的大小。 |
+| 8 | 4 | SizeOfInitializedData | 已初始化数大小 | 一般放在“.data”节里。如果有多个这样的节话，它是所有这些节的和。必须是FileAlignment的整数倍，是在文件里的大小。 |
+| 12 | 4 | SizeOfUninitializedData | 未初始化数大小 | 一般放在“.bss”节里。如果有多个这样的节话，它是所有这些节的和。必须是FileAlignment的整数倍，是在文件里的大小。 |
+| 16 | 4 | AddressOfEntryPoint | 入口点 | 当可执行文件被加载进内存时其入口点RVA。对于一般程序镜像来说，它就是启动地址。为0则从ImageBase开始执行。对于dll文件是可选的。 |
+| 20 | 4 | BaseOfCode | 代码基址 | 当镜像被加载进内存时代码节的开头RVA。必须是SectionAlignment的整数倍。 |
+| 24 | 4 | BaseOfData | 数据基址 | 当镜像被加载进内存时数据节的开头RVA。（在64位文件中此处被并入紧随其后的ImageBase中。）必须是SectionAlignment的整数倍。 |
+| 28/24 | 4/8 | ImageBase | <strong><span style="font-size: 24px; color: #0000ff;">镜像基址</span></strong> | 当加载进内存时镜像的第1个字节的首选地址。它必须是64K的倍数。DLL默认是10000000H。Windows CE 的EXE默认是00010000H。Windows 系列的EXE默认是00400000H。 |
+| 32 | 4 | SectionAlignment | 内存对齐 | 当加载进内存时节的对齐值（以字节计）。它必须≥FileAlignment。默认是相应系统的页面大小。 |
+| 36 | 4 | FileAlignment | 文件对齐 | 用来对齐镜像文件的节中的原始数据的对齐因子（以字节计）。它应该是界于512和64K之间的2的幂（包括这两个边界值）。默认是512。如果<strong>SectionAlignment</strong>小于相应系统的页面大小，那么FileAlignment必须与SectionAlignment相等。 |
+| 40 | 2 | MajorOperatingSystemVersion | 主系统的主版本号 | 操作系统的版本号可以从“我的电脑”→“帮助”里面看到，Windows XP是5.1。5是主版本号，1是次版本号 |
+| 42 | 2 | MinorOperatingSystemVersion | 主系统的次版本号 | &nbsp; |
+| 44 | 2 | MajorImageVersion | 镜像的主版本号 | &nbsp; |
+| 46 | 2 | MinorImageVersion | 镜像的次版本号 | &nbsp; |
+| 48 | 2 | MajorSubsystemVersion | 子系统的主版本号 | &nbsp; |
+| 50 | 2 | MinorSubsystemVersion | 子系统的次版本号 | &nbsp; |
+| 52 | 2 | Win32VersionValue | 保留，必须为0 | &nbsp; |
+| 56 | 4 | SizeOfImage | 镜像大小 | 当镜像被加载进内存时的大小，包括所有的文件头。向上舍入为SectionAlignment的倍数。 |
+| 60 | 4 | SizeOfHeaders | 头大小 | 所有头的总大小，向上舍入为FileAlignment的倍数。可以以此值作为PE文件第一节的文件偏移量。 |
+| 64 | 4 | CheckSum | 校验和 | 镜像文件的校验和。计算校验和的算法被合并到了Imagehlp.DLL 中。以下程序在加载时被校验以确定其是否合法：所有的驱动程序、任何在引导时被加载的DLL以及加载进关键Windows进程中的DLL。 |
+| 68 | 2 | Subsystem | 子系统类型 | 运行此镜像所需的子系统。参考后面的“<a href="http://blog.csdn.net/qiming_zhang/article/details/7309909#3.2.3">Windows子系统</a>”部分。 |
+| 70 | 2 | DllCharacteristics | DLL标识 | 参考后面的“<a href="http://blog.csdn.net/qiming_zhang/article/details/7309909#3.2.4">DLL特征</a>”部分。 |
+| 72 | 4/8 | SizeOfStackReserve | 堆栈保留大小 | 最大<strong>栈</strong>大小。<strong>CPU的堆栈</strong>。默认是1MB。 |
+| 76/80 | 4/8 | SizeOfStackCommit | 堆栈提交大小 | 初始提交的堆栈大小。默认是4KB。 |
+| 80/88 | 4/8 | SizeOfHeapReserve | 堆保留大小 | 最大<strong>堆</strong>大小。<strong>编译器分配的</strong>。默认是1MB。 |
+| 84/96 | 4/8 | SizeOfHeapCommit | 堆栈交大小 | 初始提交的局部堆空间大小。默认是4KB。 |
+| 88/104 | 4 | LoaderFlags | 保留，必须为0 | &nbsp; |
+| 92/108 | 4 | NumberOfRvaAndSizes | 目录项数目 | 数据目录项的个数。由于以前发行的Windows NT的原因，它只能为16。 |
